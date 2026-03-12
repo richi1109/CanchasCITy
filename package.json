@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "name": "proyecto-react",
-=======
   "name": "mi-proyecto-react",
->>>>>>> 7691b31af2d2eb999734201b2cad364145d9e907
   "private": true,
   "version": "0.0.0",
   "type": "module",
