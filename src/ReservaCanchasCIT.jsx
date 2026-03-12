@@ -1,118 +1,223 @@
-import { Link } from 'react-router-dom'
-import './reserva-canchas-cit.css'
+import { useState } from 'react'
+import './index.css'
 
-function ReservaCanchasCIT() {
+function ReservaPage() {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    cedula: '',
+    telefono: '',
+    fecha: '',
+    hora: '',
+    tipoCancha: 'bajo-techo',
+    detalles: '',
+  })
+
+  const [mensaje, setMensaje] = useState('')
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setMensaje(
+      `Reserva creada para ${formData.nombre || 'tu reserva'} el ${
+        formData.fecha || 'día seleccionado'
+      } a las ${formData.hora || 'hora seleccionada'}.`
+    )
+  }
+
   return (
-    <div className="cit-page">
-      <header className="cit-navbar">
-        <div className="cit-navbar-left">
-          <span className="cit-logo-text">Canchas Sintéticas CIT</span>
+    <div className="booking-page">
+      <header className="booking-header">
+        <div className="badge">Reservas</div>
+        <h1>Agenda tu cancha en minutos</h1>
+        <p>
+          Elige horario, tipo de cancha y deja tus datos para asegurar tu espacio
+          de juego.
+        </p>
+
+        <div className="highlights">
+          <div className="highlight">
+            <span className="highlight-text">Horarios flexibles</span>
+          </div>
+          <div className="highlight">
+            <span className="highlight-text">Bajo techo y aire libre</span>
+          </div>
+          <div className="highlight">
+            <span className="highlight-text">Ideal para grupos</span>
+          </div>
         </div>
-        <nav className="cit-navbar-right">
-          <Link to="/" className="cit-nav-link cit-nav-link-active">
-            Inicio
-          </Link>
-          <button className="cit-nav-link">Galería</button>
-          <button className="cit-nav-link">Contacto</button>
-        </nav>
       </header>
 
-      <main className="cit-main">
-        <section className="cit-hero">
-          <div className="cit-hero-left">
-            <h1>Disfruta del mejor fútbol en canchas sintéticas de calidad</h1>
-            <p>
-              El Complejo Educativo CIT cuenta con modernas canchas sintéticas
-              diseñadas para brindar una experiencia deportiva cómoda, segura y
-              profesional. Ideales para entrenamientos, partidos amistosos y
-              torneos.
-            </p>
-
-            <div className="cit-hero-actions">
-              <Link to="/reservas" className="cit-hero-primary">
-                Reservar cancha
-              </Link>
-              <button className="cit-hero-secondary">Ver horarios</button>
-            </div>
-
-            <p className="cit-hero-note">
-              Atención a estudiantes, docentes y comunidad en general.
-            </p>
-          </div>
-
-          <div className="cit-hero-right">
-            <div className="cit-hero-card">
-              <div className="cit-hero-gradient" />
-              <div className="cit-hero-grid" />
-              <span className="cit-hero-mark">CIT</span>
-              <div className="cit-hero-info">
-                <span className="cit-hero-label">Disponibilidad hoy</span>
-                <span className="cit-hero-value">3 canchas libres</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="cit-section cit-section-info">
-          <h2>Bienvenido a las Canchas Sintéticas CIT</h2>
-          <p>
-            Nuestras canchas están equipadas con césped sintético de alta
-            calidad, iluminación adecuada y espacios pensados para estudiantes,
-            docentes y la comunidad. Aquí podrás practicar deporte en un
-            ambiente seguro, organizado y motivador.
+      <main className="booking-layout">
+        <section className="booking-summary">
+          <h2>Resumen rápido</h2>
+          <ul>
+            <li>
+              <span className="summary-label">Nombre:</span>
+              <span className="summary-value">
+                {formData.nombre || 'Pendiente'}
+              </span>
+            </li>
+            <li>
+              <span className="summary-label">Fecha:</span>
+              <span className="summary-value">
+                {formData.fecha || 'Sin seleccionar'}
+              </span>
+            </li>
+            <li>
+              <span className="summary-label">Hora:</span>
+              <span className="summary-value">
+                {formData.hora || 'Sin seleccionar'}
+              </span>
+            </li>
+            <li>
+              <span className="summary-label">Cancha:</span>
+              <span className="summary-value">
+                {formData.tipoCancha === 'bajo-techo'
+                  ? 'Bajo techo'
+                  : 'Al aire libre'}
+              </span>
+            </li>
+          </ul>
+          <p className="summary-note">
+            Completa el formulario para confirmar tu reserva. Puedes ajustar los
+            datos cuando quieras antes de enviar.
           </p>
         </section>
 
-        <section className="cit-section">
-          <div className="cit-section-header">
-            <h2>Galería de las canchas</h2>
-            <p>Explora algunas vistas de nuestras instalaciones deportivas.</p>
-          </div>
+        <section className="booking-form-section">
+          <h2>Formulario de reserva</h2>
 
-          <div className="cit-gallery">
-            <article className="cit-card">
-              <div className="cit-card-image cit-card-image-1" />
-              <div className="cit-card-body">
-                <h3>Cancha Principal</h3>
-                <p>Césped sintético de alto rendimiento para partidos y torneos.</p>
+          <form className="booking-form" onSubmit={handleSubmit}>
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="nombre">Nombre completo</label>
+                <input
+                  id="nombre"
+                  name="nombre"
+                  type="text"
+                  placeholder="Ej: Juan Pérez"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-            </article>
 
-            <article className="cit-card">
-              <div className="cit-card-image cit-card-image-2" />
-              <div className="cit-card-body">
-                <h3>Iluminación Nocturna</h3>
-                <p>Ideal para entrenar y jugar en horarios extendidos.</p>
+              <div className="form-field">
+                <label htmlFor="cedula">Cédula</label>
+                <input
+                  id="cedula"
+                  name="cedula"
+                  type="text"
+                  placeholder="Ej: 8-888-888"
+                  value={formData.cedula}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-            </article>
+            </div>
 
-            <article className="cit-card">
-              <div className="cit-card-image cit-card-image-3" />
-              <div className="cit-card-body">
-                <h3>Zona de Descanso</h3>
-                <p>Espacios cómodos para jugadores, docentes y espectadores.</p>
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="telefono">Teléfono</label>
+                <input
+                  id="telefono"
+                  name="telefono"
+                  type="tel"
+                  placeholder="Ej: +507 6000-0000"
+                  value={formData.telefono}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-            </article>
-          </div>
-        </section>
 
-        <section className="cit-section cit-section-contact">
-          <h2>¿Quieres saber más?</h2>
-          <p>
-            Para reservas, consultas o más información sobre las canchas
-            sintéticas del Complejo Educativo CIT, comunícate con la
-            administración de la institución o realiza tu solicitud de reserva
-            en línea.
-          </p>
+              <div className="form-field">
+                <label htmlFor="tipoCancha">Tipo de cancha</label>
+                <div className="pill-group">
+                  <button
+                    type="button"
+                    className={`pill ${
+                      formData.tipoCancha === 'bajo-techo' ? 'pill-active' : ''
+                    }`}
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        tipoCancha: 'bajo-techo',
+                      }))
+                    }
+                  >
+                    Bajo techo
+                  </button>
+                  <button
+                    type="button"
+                    className={`pill ${
+                      formData.tipoCancha === 'aire-libre' ? 'pill-active' : ''
+                    }`}
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        tipoCancha: 'aire-libre',
+                      }))
+                    }
+                  >
+                    Aire libre
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="fecha">Fecha</label>
+                <input
+                  id="fecha"
+                  name="fecha"
+                  type="date"
+                  value={formData.fecha}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="hora">Hora</label>
+                <input
+                  id="hora"
+                  name="hora"
+                  type="time"
+                  value={formData.hora}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-field">
+              <label htmlFor="detalles">Detalles adicionales (Ejemplo: mi proyecto no funciona beeee)</label>
+              <textarea
+                id="detalles"
+                name="detalles"
+                rows="3"
+                placeholder="Deporte, número de personas, comentarios..."
+                value={formData.detalles}
+                onChange={handleChange}
+              />
+            </div>
+
+            <button type="submit" className="primary-button">
+              Confirmar reserva
+            </button>
+
+            {mensaje && <p className="success-message">{mensaje}</p>}
+          </form>
         </section>
       </main>
-
-      <footer className="cit-footer">
-        <span>Complejo Educativo CIT © 2025</span>
-      </footer>
     </div>
   )
 }
 
-export default ReservaCanchasCIT
+export default ReservaPage
 
